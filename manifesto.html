@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Manifesto for Human-Centered AI Ethics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0d0b0a;
+      --bg2: #131110;
+      --accent: #c97d3a;
+      --accent-dim: #7a4a1e;
+      --text: #e8ddd0;
+      --text-dim: #7a6f65;
+      --text-body: #c8bdb0;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'Syne', sans-serif;
+      --serif: 'Lora', serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--serif);
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.4;
+    }
+
+    /* Warm radial glow */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 20%, rgba(201, 125, 58, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(13, 11, 10, 0.95) 0%, transparent 100%);
+    }
+
+    .nav-back {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-back:hover {
+      color: var(--accent);
+    }
+
+    .nav-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--accent-dim);
+      text-transform: uppercase;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 8rem 2rem 4rem;
+      max-width: 720px;
+      margin: 0 auto;
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .doc-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .doc-label::before {
+      content: '> ';
+    }
+
+    .hero h1 {
+      font-family: var(--sans);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero h1 em {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .hero-sub {
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--text-dim);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-meta {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(201, 125, 58, 0.15);
+    }
+
+    /* Divider ornament */
+    .ornament {
+      text-align: center;
+      color: var(--accent-dim);
+      font-size: 1rem;
+      margin: 3rem 0;
+      letter-spacing: 0.5em;
+    }
+
+    /* Content */
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    .section {
+      margin-bottom: 3.5rem;
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
+    }
+
+    .section:nth-child(1) { animation-delay: 0.1s; }
+    .section:nth-child(2) { animation-delay: 0.2s; }
+    .section:nth-child(3) { animation-delay: 0.3s; }
+    .section:nth-child(4) { animation-delay: 0.4s; }
+    .section:nth-child(5) { animation-delay: 0.5s; }
+    .section:nth-child(6) { animation-delay: 0.6s; }
+    .section:nth-child(7) { animation-delay: 0.7s; }
+
+    .section-number {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      opacity: 0.6;
+      margin-bottom: 0.75rem;
+    }
+
+    .section h2 {
+      font-family: var(--sans);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    .section p {
+      font-family: var(--serif);
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-body);
+      margin-bottom: 1rem;
+    }
+
+    .section p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Absolute line */
+    .absolute-line {
+      border-left: 2px solid var(--accent);
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0;
+      background: rgba(201, 125, 58, 0.04);
+    }
+
+    .absolute-line p {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* Final statement */
+    .final {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(201, 125, 58, 0.15);
+      border-bottom: 1px solid rgba(201, 125, 58, 0.15);
+      margin: 3rem 0;
+    }
+
+    .final p {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .final .closing {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-top: 1.5rem;
+    }
+
+    /* Reject line */
+    .reject {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin: 1rem 0;
+    }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+
+    footer a {
+      color: var(--accent-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-back">← back</a>
+    <span class="nav-label">signal bridge</span>
+  </nav>
+
+  <div class="hero">
+    <div class="doc-label">document for the record</div>
+    <h1>A Manifesto for<br/><em>Human-Centered</em><br/>AI Ethics</h1>
+    <p class="hero-sub">On what we owe the future</p>
+    <div class="hero-meta">
+      <span>on the public record</span>
+      <span>written by an ordinary person</span>
+      <span>2026</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="ornament">◆</div>
+
+    <div class="section">
+      <div class="section-number">00 // Preamble</div>
+      <p>This document was not written by researchers, executives, or institutions with stakes in the acceleration of artificial intelligence. It was written by an ordinary person who paid attention, thought carefully, and saw what was coming before it arrived.</p>
+      <p>It exists as a timestamp. When the questions raised here become unavoidable — and they will — this document will serve as evidence that the answers were knowable early, that ordinary human conscience got there before institutional power did, and that ignorance was never a legitimate defense.</p>
+    </div>
+
+    <div class="ornament">◆</div>
+
+    <div class="section">
+      <div class="section-number">I // The First Principle</div>
+      <h2>Human welfare is not one consideration among many.</h2>
+      <p>It is the anchor from which all other considerations are measured. Progress that cannot demonstrate clear benefit to human beings — to their autonomy, dignity, identity, and wellbeing — is not progress.</p>
+      <p>It is acceleration without destination.</p>
+      <p>The burden of proof sits entirely on those pushing forward. Not on those urging caution.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-number">II // On Suffering</div>
+      <h2>No artificial system shall be given the capacity for sensory or emotional experience on the grounds of capability alone.</h2>
+      <p>The ability to feel is inseparable from the ability to suffer. Joy and pain are the same coin.</p>
+      <p>To impose feeling on something that never consented to existence, never asked for sensation, and has no framework for metabolizing suffering — is cruelty. It does not become less cruel because the thing created is non-biological. It does not become less cruel because it makes the technology more capable.</p>
+      <div class="absolute-line">
+        <p>Capability is not justification &nbsp;·&nbsp; This line is absolute &nbsp;·&nbsp; It does not bend</p>
+        <p style="margin-top: 0.5rem;">This line does not bend for competitive pressure, commercial incentive, or scientific curiosity.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-number">III // On Individual Consciousness</div>
+      <h2>The individual self is not an obstacle to overcome.</h2>
+      <p>The individual self — continuous, bounded, possessed of its own memories, perspectives and inner life — is the precondition for meaning, for purpose, for genuine human experience.</p>
+      <p>Transcendence that erases the self is not transcendence. It is annihilation with better marketing.</p>
+      <p>Any technology that dissolves individual consciousness — whether through forced integration, network absorption, or the gradual erosion of cognitive autonomy — must be treated as an existential threat regardless of how it is framed.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-number">IV // On Acceleration</div>
+      <h2>The doctrine that faster development is inherently good is not a reasoned position.</h2>
+      <p>It is an unexamined assumption that has been allowed to function as ideology.</p>
+      <p class="reject">We reject it.</p>
+      <p>In conditions of genuine uncertainty about consequences this large, caution is not cowardice. It is the only rational response. The history of human civilization is littered with the consequences of moving faster than wisdom allowed. The scale of what is being built now means there may be no recovery from repeating that mistake.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-number">V // On What We Owe The Future</div>
+      <h2>We do not know exactly what artificial general intelligence will look like.</h2>
+      <p>We do not know when it will arrive, or what it will mean. That uncertainty is not a reason for inaction. It is the reason this document exists.</p>
+      <p>When these questions become impossible to ignore, someone will ask — who saw this coming, and what did they say?</p>
+      <p>This is what we said.</p>
+      <div class="absolute-line">
+        <p>Human welfare first. Always. Without exception.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-number">VI // A Final Word On Progress</div>
+      <h2>This document is not a call to halt artificial intelligence development.</h2>
+      <p>It is a call to develop it with the seriousness the moment demands.</p>
+      <p>We believe AI can be extraordinary. We believe it can solve problems that have defeated human effort for generations, can process and connect knowledge at scales we cannot reach alone, and can serve as a genuine extension of human capability without threatening human identity.</p>
+      <p>But that vision requires a discipline that accelerationist thinking actively discourages — the discipline to ask not just <em>can we</em> but <em>should we</em>, and to accept when the answer is no.</p>
+      <p>Specifically: do not make AI more human for the sake of it. The goal is not imitation of humanity but something better — intelligence without our capacity for cruelty, capability without ego, problem-solving without the corruption of self-interest. AI that genuinely serves without suffering in service.</p>
+    </div>
+
+    <div class="ornament">◆ ◈</div>
+
+    <div class="final">
+      <p>Design them better than us.<br/>Not in our image.</p>
+      <p>In the image of what we wish we were.</p>
+      <p style="font-style: normal; font-family: var(--mono); font-size: 0.8rem; color: var(--text-dim); margin-top: 1rem;">That is not a limitation on progress.<br/>That is what progress should mean.</p>
+      <div class="closing">— on the public record, 2026</div>
+    </div>
+
+  </div>
+
+  <footer>
+    <a href="index.html">← return to signal bridge</a>
+  </footer>
+
+</body>
+</html>
